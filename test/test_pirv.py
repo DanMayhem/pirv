@@ -69,6 +69,38 @@ def test_verify_runoff_scenario_3():
   e.vote([2,3])
   e.vote([1,3])
   e.vote([3])
+  t = e._tally_votes()
+  assert t[1] == 2
+  assert t[2] == 1
+  assert t[3] == 1
+  (winners, losers) = e._find_results(t)
+  assert 1 in winners
+  assert 4 in losers
+  assert e.winner() is None
+
+def test_verify_runoff_scenario_3b():
+  e = pirv.Election([1,2,3])
+  e.vote([1,3])
+  e.vote([2,3])
+  e.vote([1,3])
+  e.vote([3])
+  t = e._tally_votes()
+  assert t[1] == 2
+  assert t[2] == 1
+  assert t[3] == 1
+  (winners, losers) = e._find_results(t)
+  assert 1 in winners
+  assert 2 in losers
+  assert 3 in losers
+  assert e.winner() is None
+
+def test_verify_runoff_scenario_3c():
+  e = pirv.Election([1,2])
+  e.vote([1])
+  e.vote([])
+  e.vote([1])
+  e.vote([])
+  t = e._tally_votes()
   assert e.winner() == 1
 
 def test_verify_runoff_scenario_4():

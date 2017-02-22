@@ -31,7 +31,10 @@ class Election():
     (first, last) = self._find_results(tally)
     if tally[first[0]] >= self.votes_required_to_win():
       return first[0]
-    e = Election([x for x in self._candidates if x not in last])
+    new_ballot = [x for x in self._candidates if x not in last]
+    if len(new_ballot) < 2:
+      return None
+    e = Election(new_ballot)
     for v in self._votes:
       e.vote([x for x in v if x not in last])
     return e.winner()
